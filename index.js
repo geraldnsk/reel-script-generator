@@ -22,12 +22,12 @@ app.post('/generate', async (req, res) => {
     const completion = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
       messages: [
-        { role: 'system', content: 'You are a viral Instagram script writer.' },
-        { role: 'user', content: `Give me a short viral AI video script for: ${niche}` },
-      ],
+        { role: 'system', content: 'You are a viral Instagram coach.' },
+        { role: 'user', content: `Give me a short viral IG Reel script about ${niche}` }
+      ]
     });
 
-    const script = completion.data.choices[0].message.content;
+    const script = completion.data.choices[0]?.message?.content || "No script returned.";
     res.json({ script });
   } catch (error) {
     console.error(error);
