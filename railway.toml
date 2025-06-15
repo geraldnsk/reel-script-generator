@@ -1,9 +1,8 @@
 [build]
-  command = "npm install"
+command = "npm install"
 
 [start]
-  command = "node index.js"
+command = "npm start"
 
-[[ports]]
-  port = 3000
-  protocol = "http"
+[deploy]
+numReplicas = 1
