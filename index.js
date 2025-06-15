@@ -1,37 +1,37 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const OpenAI = require("openai");
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const { Configuration, OpenAIApi } = require('openai');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static("public"));
+app.use(express.static('public'));
 
-const openai = new OpenAI({
+const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
+const openai = new OpenAIApi(configuration);
 
-app.post("/generate", async (req, res) => {
+app.post('/generate', async (req, res) => {
   const { niche } = req.body;
+
   try {
-    const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+    const completion = await openai.createChatCompletion({
+      model: 'gpt-3.5-turbo',
       messages: [
-        { role: "system", content: "You are a viral Instagram content coach." },
-        {
-          role: "user",
-          content: `Give me a short viral Instagram Reel script for the ${niche} niche. It should have a hook, a tip, and a CTA.`,
-        },
+        { role: 'system', content: 'You are a viral Instagram script writer.' },
+        { role: 'user', content: `Give me a short viral AI video script for: ${niche}` },
       ],
     });
-    const result = completion.choices[0].message.content;
-    res.json({ script: result });
+
+    const script = completion.data.choices[0].message.content;
+    res.json({ script });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Something went wrong" });
+    res.status(500).json({ error: 'Something went wrong generating the script.' });
   }
 });
 
