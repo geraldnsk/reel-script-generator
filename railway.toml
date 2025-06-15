@@ -1,0 +1,9 @@
+[build]
+  command = "npm install"
+
+[start]
+  command = "node index.js"
+
+[[ports]]
+  port = 3000
+  protocol = "http"
