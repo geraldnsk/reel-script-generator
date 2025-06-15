@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reel Script Generator</title>
+</head>
+<body>
+  <h1>Generate an IG Reel Script</h1>
+  <input type="text" id="niche" placeholder="Enter your niche" />
+  <button onclick="generateScript()">Generate</button>
+  <pre id="result"></pre>
+
+  <script>
+    async function generateScript() {
+      const niche = document.getElementById('niche').value;
+      const res = await fetch('/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ niche }),
+      });
+      const data = await res.json();
+      document.getElementById('result').innerText = data.script;
+    }
+  </script>
+</body>
+</html>
